@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pm2/io": "^4.3.5",
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
+    "handlebars": "^4.7.6",
+    "i18n": "^0.13.2",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
+    "moment": "^2.22.0",
+    "mongoose": "^5.12.7",
+    "uuid": "^3.4.0"
+  }
+}
