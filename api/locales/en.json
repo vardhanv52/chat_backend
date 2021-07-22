@@ -11,5 +11,9 @@
   "incorrect_old_pwd": "Incorrect old password",
   "invalid_request": "Invalid Request",
   "logged_out": "Successfully logged out",
-  "deactivated_account": "Looks like your account is deactivated. Please contact our support team."
+  "deactivated_account": "Looks like your account is deactivated. Please contact our support team.",
+  "added": "Added successfully!!!",
+  "updated": "Updated successfully!!!",
+  "missing_fields": "Required fields are missing",
+  "duplicate_email": "There is already an account with this email address"
 }
