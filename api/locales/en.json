@@ -6,6 +6,8 @@
   "general_service_db_err": "Welcome to Chat General Service. Looks like there's a problem with database connection. Pls check it out once.",
   "user_service_ok": "Welcome to Chat User Service",
   "user_service_db_err": "Welcome to Chat User Service. Looks like there's a problem with database connection. Pls check it out once.",
+  "chat_service_ok": "Welcome to Chat Messaging Service",
+  "chat_service_db_err": "Welcome to Chat Messaging Service. Looks like there's a problem with database connection. Pls check it out once.",
   "unregistered_user": "There is no user account with this email address",
   "incorrect_pwd": "Incorrect password",
   "incorrect_old_pwd": "Incorrect old password",

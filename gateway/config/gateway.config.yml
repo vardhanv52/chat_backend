@@ -4,6 +4,9 @@ admin:
   port: 9876
   host: localhost
 apiEndpoints:
+  chatAPI:
+    host: "*"
+    paths: ["/api/chat", "/api/chat/*"]
   userAPI:
     host: "*"
     paths: ["/api/user", "/api/user/*"]
@@ -11,6 +14,8 @@ apiEndpoints:
     host: "*"
     paths: ["/api", "/api/*"]
 serviceEndpoints:
+  chatService:
+    url: "http://localhost:${PORT_CHAT}/"
   generalService:
     url: "http://localhost:${PORT_GENERAL}/"
   userService:
@@ -25,6 +30,26 @@ policies:
   - proxy
   - rate-limit
 pipelines:
+  chatPipeline:
+    apiEndpoints:
+      - chatAPI
+    policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: "HEAD,PUT,PATCH,POST,DELETE,GET"
+              allowedHeaders:
+                [
+                  "Content-Type",
+                  "Origin",
+                  "Authorization",
+                  "Access-Control-Allow-Origin",
+                  "Accept",
+                ]
+      - proxy:
+          - action:
+              serviceEndpoint: chatService
+              changeOrigin: true
   userPipeline:
     apiEndpoints:
       - userAPI
