@@ -9,5 +9,8 @@ module.exports = {
         useNewUrlParser: true,
         useFindAndModify: false,
         useUnifiedTopology: true
-    }
+    },
+
+    ROLE_ADMIN: "ADMIN",
+    ROLE_USER: "USER"
 }

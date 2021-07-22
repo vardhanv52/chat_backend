@@ -14,5 +14,13 @@ module.exports = {
                 message: res.__("user_service_db_err")
             })
         }
+    },
+
+    createUser: async (req, res) => {
+
+    },
+
+    updateUser: async (req, res) => {
+
     }
 }

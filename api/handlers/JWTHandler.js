@@ -1,4 +1,5 @@
 const JSONWebToken = require('jsonwebtoken');
+const Constants = require('../utils/Constants')
 
 module.exports = {
     signToken: (user_id, name, email, role) => {
@@ -32,6 +33,25 @@ module.exports = {
         try {
             var token = req.headers.authorization.split(" ")[1];
             var result = JSONWebToken.verify(token, process.env.JWT_SECRET_KEY);
+            next();
+        } catch (err) {
+            return res.status(401).send({
+                "status": false,
+                "message": res.__("not_authorized")
+            });
+        }
+    },
+
+    validateAdminToken: (req, res, next) => {
+        try {
+            var token = req.headers.authorization.split(" ")[1];
+            var result = JSONWebToken.verify(token, process.env.JWT_SECRET_KEY);
+            if (result.role != Constants.ROLE_ADMIN) {
+                return res.status(401).send({
+                    "status": false,
+                    "message": res.__("not_authorized")
+                });
+            }
             next();
         } catch (err) {
             return res.status(401).send({
