@@ -27,11 +27,16 @@ module.exports = {
                 json: res.__('missing_fields')
             })
         }
+        let members = []
+        if (req.body.members) {
+            members = req.body.members
+        }
         let data = {
             name: name,
             owner_id: req.decoded_data.user_id,
-            members: [req.decoded_data.user_id]
+            members: members
         }
+
         let group = await new Group(data).save()
         let record = group.toObject()
         record.members_count = record.members.length
