@@ -108,8 +108,11 @@ module.exports = {
 
     getUsers: async (req, res) => {
         let token_data = req.body
-        let query = {}
-        if (token_data.role == Constants.ROLE_ADMIN)
+        let search = req.query.search
+        if (search == undefined)
+            search = ""
+        let query = { name: { $regex: search, $options: "i" } }
+        if (token_data.role == Constants.ROLE_USER)
             query.is_active = true
         const page = parseInt(req.params.page_no)
         const limit = parseInt(req.params.page_size)
