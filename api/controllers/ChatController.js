@@ -80,7 +80,7 @@ module.exports = {
         const page = parseInt(req.params.page_no)
         const limit = parseInt(req.params.page_size)
         const startIndex = (page - 1) * limit
-        let query = { name: { $regex: search, $options: "i" } }
+        let query = { name: { $regex: search, $options: "i" }, members: { $in: [req.decoded_data.user_id] } }
         let groups = await Group.find(query).sort('name').skip(startIndex).limit(limit).lean()
         groups.forEach(grp => {
             grp.members_count = grp.members.length
@@ -181,12 +181,19 @@ module.exports = {
         }
         let messages = await Message.find({ group_id: group_id }).sort('inserted_at').lean()
         let user_id = req.decoded_data.user_id
+        let others = []
         messages.forEach(message => {
             if (message.liked_by.indexOf(user_id) < 0)
                 message.is_liked = false
             else
                 message.is_liked = true
+            if (others.indexOf(message.author_id) < 0)
+                others.push(message.author_id)
             delete message.liked_by
+        })
+        let otherUsers = await User.find({ _id: { $in: others } }, 'name email').lean()
+        messages.forEach(msg => {
+            msg.user = getUserRecord(otherUsers, msg.author_id)
         })
         return res.json({
             status: true,
@@ -223,16 +230,30 @@ module.exports = {
 
     likeMessage: async (req, res) => {
         let message_id = req.body.message_id
-        if (!message_id) {
+        let status = req.body.status
+        if (!message_id || status == undefined) {
             return res.status(400).json({
                 status: false,
                 message: res.__('missing_fields')
             })
         }
-        await Message.findByIdAndUpdate(message_id, { $push: { liked_by: req.decoded_data.user_id } })
+        if (status)
+            await Message.findByIdAndUpdate(message_id, { $push: { liked_by: req.decoded_data.user_id } })
+        else
+            await Message.findByIdAndUpdate(message_id, { $pull: { liked_by: req.decoded_data.user_id } })
         return res.json({
             status: true,
             message: res.__('updated'),
         })
     }
+}
+
+function getUserRecord(users, user_id) {
+    let userRecord = undefined
+    users.forEach(user => {
+        if (user._id == user_id) {
+            userRecord = user
+        }
+    })
+    return userRecord
 }

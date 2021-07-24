@@ -8,6 +8,7 @@ const Constants = require('../api/utils/Constants')
 const mongoose = require("mongoose");
 const upload = require("express-fileupload");
 const JWTHandler = require('../api/handlers/JWTHandler')
+const SocketController = require('../api/controllers/SocketController')
 app.use(upload());
 require('dotenv').config();
 const i18n = require("i18n");
@@ -67,3 +68,4 @@ server.listen(process.env.PORT_CHAT)
 server.on('listening', function () {
     console.log("Chat service started")
 })
+SocketController.initialise(server)
